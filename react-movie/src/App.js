@@ -1,47 +1,20 @@
 import React, { Component } from "react";
+import HomePage from "./components/HomePage";
 import Navbar from "./components/Navbar";
-import Post from "./components/Post";
+import PostData from "./components/PostsData";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import PostForm from "./components/PostForm";
+const App = () => {
+  return (
+    <Router>
+      <div className="App">
+        <Navbar />
+        <Route path="/" component={HomePage} />
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      posts: [],
-      isLoaded: false,
-    };
-  }
+        <PostForm />
+      </div>
+    </Router>
+  );
+};
 
-  componentDidMount() {
-    fetch("http://localhost:8080/posts")
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({
-          isLoaded: true,
-          posts: data,
-        });
-      });
-  }
-
-  render() {
-    const { isLoaded, posts } = this.state;
-
-    if (!isLoaded) {
-      return <div>Loading....</div>;
-    } else {
-      return (
-        <div className="App">
-          <div className="container">
-            <Navbar />
-            {posts.map((post) => (
-              // <li key={post.id}>
-              //   {post.title}||{post.description}
-              // </li>
-              <Post post={post} />
-            ))}
-          </div>
-        </div>
-      );
-    }
-  }
-}
 export default App;
